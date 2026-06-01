@@ -33,6 +33,7 @@ IP - ansible-slave: 172.23.0.3
 connect to ansible-master: docker exec -it ansible-master bash
 connect to ansible-slave: docker exec -it ansible-slave bash
 
+my volume: miniprojectdocker_myssh
 
 source for assist:
 https://stackoverflow.com/questions/27504187/ssh-key-generation-using-dockerfile

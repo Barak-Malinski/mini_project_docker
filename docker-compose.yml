@@ -9,3 +9,7 @@ services:
     container_name: ansible-slave
     ports:
      - "2222:22"
+    volumes:
+     - myssh:/home/ansible/.ssh
+volumes:
+  myssh:   
