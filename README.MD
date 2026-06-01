@@ -6,9 +6,7 @@ container name: ansible-slave
 run exec: docker exec -it ansible-master bash
 run exec: docker exec -it ansible-slave bash
 
-user:
-USER SSH: ansible
-PASSWORD: 123
+
 
 service ssh restart -- if sshd not runing from service ssh status
 service ssh status - check if sshd is running 
