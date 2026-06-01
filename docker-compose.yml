@@ -1,0 +1,11 @@
+services:
+  ansible-master:
+    image: ansible-master:v0.1 
+    container_name: ansible-master
+    
+
+  ansible-slave:
+    image: ansible-app-slave:v0.1
+    container_name: ansible-slave
+    ports:
+     - "2222:22"

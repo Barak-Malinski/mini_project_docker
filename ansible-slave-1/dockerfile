@@ -1,0 +1,20 @@
+FROM ubuntu:latest
+WORKDIR /app
+COPY . . 
+RUN apt-get update && apt-get -y install openssh-server 
+RUN useradd -ms /bin/bash ansible && echo "ansible:123" | chpasswd
+RUN usermod -aG sudo ansible
+RUN service ssh start
+RUN ls -la /home
+RUN id ansible
+RUN mkdir /home/ansible/.ssh
+RUN ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "" 
+RUN cp /root/.ssh/id_rsa.pub /home/ansible/.ssh/authorized_keys      
+RUN cp /root/.ssh/id_rsa /home/ansible/.ssh/      
+
+#RUN mv /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+#CMD ["sleep", "infinity"]
+CMD ["/usr/sbin/sshd", "-D"] 
+
+
+
