@@ -27,8 +27,6 @@ chmod 600 id_rsa - permission for linux connection
 
 ./automation.sh 
 
-cp -r "/mnt/c/Users/barak/OneDrive/Desktop/Mini Project docker" /home/barak/ - copy from host to linux folder 
-
 IP - ansible-master: 172.23.0.2
 IP - ansible-slave: 172.23.0.3
 
