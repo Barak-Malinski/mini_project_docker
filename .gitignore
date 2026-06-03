@@ -2,3 +2,5 @@ id_rsa
 .env
 id_rsa.pub
 authorized_keys
+slave-db-key/
+slave-app-key/
