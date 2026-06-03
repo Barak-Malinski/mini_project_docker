@@ -6,15 +6,14 @@ container name: ansible-slave
 run exec: docker exec -it ansible-master bash
 run exec: docker exec -it ansible-slave bash
 
-
-
 service ssh restart -- if sshd not runing from service ssh status
 service ssh status - check if sshd is running 
 
-ansible -i inventory.ini slaves -m ping
-
 docker cp ansible-slave:/root/.ssh/id_rsa .  - download key from server to host
 COPY ansible-slave:/root/.ssh/id_rsa . 
+
+docker cp id_rsa ansible-master:/
+chmod 600 id_rsa - permission for linux connection
 
 view file cat /root/.ssh/authorized_keys
 
@@ -26,16 +25,15 @@ docker exec -it -u ansible ansible-slave sh
 ssh -i id_rsa -p 2222 ansible@localhost
 
 ssh -i id_rsa -p 22 ansible@172.25.0.3
+
+Need to connect this server with dns 
 ssh -i id_rsa -p 22 ansible@ansible-slave
-
-docker cp id_rsa ansible-master:/
-
-chmod 600 id_rsa - permission for linux connection
+ansible -i inventory.ini slaves -m ping
 
 ./automation.sh 
 
 IP - ansible-master: 172.25.0.2
-IP - ansible-slave: 172.25.0.3
+IP - ansible-slave: 172.25.0.3 
 
 connect to ansible-master: docker exec -it ansible-master bash
 connect to ansible-slave: docker exec -it ansible-slave bash
@@ -60,6 +58,7 @@ into the container Server DB Slave:
 2. install postgresql app container into container - so install image with docker compose like this:
 services:
 
+install postgres for ansible-slave-2
   db:
     image: postgres
     restart: always
@@ -77,9 +76,6 @@ services:
     - 8080:8080
 
 3. pgadmin
-
-
-
 
 docker deamon - volume from docker hub to server
 
