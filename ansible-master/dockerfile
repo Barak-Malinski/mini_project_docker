@@ -2,5 +2,6 @@ FROM ubuntu:latest
 WORKDIR /app
 COPY . . 
 RUN apt-get update && apt-get install -y ansible
-RUN apt-get update && apt-get install -y openssh-client 
+RUN apt-get update && apt-get -y install openssh-client 
+RUN apt-get -y install nano
 CMD ["sleep", "infinity"] 

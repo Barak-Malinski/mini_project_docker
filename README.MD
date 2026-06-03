@@ -11,6 +11,8 @@ run exec: docker exec -it ansible-slave bash
 service ssh restart -- if sshd not runing from service ssh status
 service ssh status - check if sshd is running 
 
+ansible -i inventory.ini slaves -m ping
+
 docker cp ansible-slave:/root/.ssh/id_rsa .  - download key from server to host
 COPY ansible-slave:/root/.ssh/id_rsa . 
 
@@ -23,12 +25,17 @@ docker exec -it -u ansible ansible-slave sh
 
 ssh -i id_rsa -p 2222 ansible@localhost
 
+ssh -i id_rsa -p 22 ansible@172.25.0.3
+ssh -i id_rsa -p 22 ansible@ansible-slave
+
+docker cp id_rsa ansible-master:/
+
 chmod 600 id_rsa - permission for linux connection
 
 ./automation.sh 
 
-IP - ansible-master: 172.23.0.2
-IP - ansible-slave: 172.23.0.3
+IP - ansible-master: 172.25.0.2
+IP - ansible-slave: 172.25.0.3
 
 connect to ansible-master: docker exec -it ansible-master bash
 connect to ansible-slave: docker exec -it ansible-slave bash
@@ -39,3 +46,40 @@ source for assist:
 https://stackoverflow.com/questions/27504187/ssh-key-generation-using-dockerfile
 
 https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-22-04
+
+need to install for 2 contatiners with docker deamon shared:
+docker 
+
+into the container Server App Slave:
+1. need to install docker with docker and docker compose with docker deamon
+2. install python app container into container 
+
+
+into the container Server DB Slave:
+1. need to install docker with docker and docker compose with docker deamon
+2. install postgresql app container into container - so install image with docker compose like this:
+services:
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    # shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    volumes:
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+    - 8080:8080
+
+3. pgadmin
+
+
+
+
+docker deamon - volume from docker hub to server
+
