@@ -4,12 +4,29 @@ services:
     container_name: ansible-master
     
 
-  ansible-slave:
-    image: ansible-app-slave:v0.1
-    container_name: ansible-slave
+  ansible-slave-app:
+    image: ansible-slave:v0.1
+    container_name: ansible-slave-app
     ports:
      - "2222:22"
     volumes:
      - myssh:/home/ansible/.ssh
+     
+ 
+
+  ansible-slave-db:
+    image: ansible-slave:v0.1
+    container_name: ansible-slave-db
+    ports:
+     - "2223:22"
+    volumes:
+     - myssh:/home/ansible/.ssh
+
+
 volumes:
-  myssh:   
+ myssh:      
+
+
+
+
+  
