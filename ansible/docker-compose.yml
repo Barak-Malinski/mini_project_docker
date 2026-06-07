@@ -2,7 +2,7 @@ services:
   ansible-master:
     image: ansible-master:v0.1 
     container_name: ansible-master
-    
+
 
   ansible-slave-app:
     image: ansible-slave:v0.1
@@ -11,6 +11,7 @@ services:
      - "2222:22"
     volumes:
      - myssh:/home/ansible/.ssh
+     - /var/run/docker.sock:/var/run/docker.sock
      
  
 
@@ -21,10 +22,11 @@ services:
      - "2223:22"
     volumes:
      - myssh:/home/ansible/.ssh
-
+     - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
- myssh:      
+ myssh: 
+ 
 
 
 

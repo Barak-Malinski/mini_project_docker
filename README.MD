@@ -27,7 +27,7 @@ ssh -i id_rsa -p 2222 ansible@localhost
 ssh -i id_rsa -p 22 ansible@172.25.0.3
 
 Need to connect this server with dns 
-ssh -i /app/slave-db-key/id_rsa -p 22 ansible@ansible-slave-app
+ssh -i /app/slave-db-key/id_rsa -p 22 ansible@ansible-slave-db
 ssh -i /app/slave-app-key/id_rsa -p 22 ansible@ansible-slave-app
 ansible -i inventory.ini slave_app -m ping
 ansible -i inventory.ini slave_db -m ping
@@ -63,45 +63,16 @@ into the container Server DB Slave:
 2. install postgresql app container into container - so install image with docker compose like this:
 services:
 
-install postgres for ansible-slave-2
-  db:
-    image: postgres
-    restart: always
-    # set shared memory limit when using docker compose
-    # shm_size: 128mb
-    # or set shared memory limit when deploy via swarm stack
-    volumes:
-      - type: tmpfs
-        target: /dev/shm
-        tmpfs:
-          size: 134217728 # 128*2^20 bytes = 128Mb
-    environment:
-      POSTGRES_PASSWORD: mysecretpassword
-    ports:
-    - 8080:8080
-
-services:
-  db:
-    image: postgres
-    restart: always
-    # set shared memory limit when using docker compose
-    # shm_size: 128mb
-    # or set shared memory limit when deploy via swarm stack
-    volumes:
-      - type: tmpfs
-        target: /dev/shm
-        tmpfs:
-          size: 134217728 # 128*2^20 bytes = 128Mb
-    environment:
-      POSTGRES_PASSWORD: mysecretpassword
-    ports:
-    - 8080:8080
-
 
 3. pgadmin
 
 docker deamon - volume from docker hub to server
 
 
+ansible-playbook -i inventory.ini deploy.yml
 
 
+working
+curl -X POST http://localhost:5000/users/   -H "Content-Type: application/json"   -d '{"username":"yaron","email":"yaron@test.com","password":"123"}'
+
+add user - curl -X POST http://localhost:5000/users/ -H "Content-Type: application/json" -d "{\"username\":\"barak\",\"email\":\"barak@test.com\",\"password\":\"123\"}"

@@ -1,0 +1,18 @@
+    
+ - hosts: slave_app
+   tasks:   
+         - name: start docker compose services
+           community.docker.docker_compose_v2: 
+            project_src: /app
+            files: docker-compose.yml 
+           
+          
+
+ - hosts: slave_db
+   tasks:   
+         - name: start docker compose services
+           community.docker.docker_compose_v2: 
+            project_src: /app
+            files: docker-compose.yml 
+            
+

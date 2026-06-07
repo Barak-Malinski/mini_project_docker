@@ -12,8 +12,23 @@ RUN ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 RUN cp /root/.ssh/id_rsa.pub /home/ansible/.ssh/authorized_keys      
 RUN cp /root/.ssh/id_rsa /home/ansible/.ssh/
 RUN apt-get update && apt-get install python3
-#RUN mv /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
-#CMD ["sleep", "infinity"]
+RUN apt-get update && apt-get -y install ca-certificates curl
+RUN install -m 0755 -d /etc/apt/keyrings
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+RUN chmod a+r /etc/apt/keyrings/docker.asc
+RUN tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+RUN apt-get update && apt-get -y install docker-ce docker-ce-cli 
+RUN apt-get -y install containerd.io 
+RUN apt-get -y install docker-buildx-plugin
+RUN apt-get -y install docker-compose-plugin
+RUN usermod -aG docker ansible
 CMD ["/usr/sbin/sshd", "-D"] 
 
 
