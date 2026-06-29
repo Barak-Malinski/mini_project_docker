@@ -68,3 +68,4 @@ http://localhost:5000/users/
 
 
 ## Architecture Diagram
+![Architecture Diagram](diagram/architecture-diagram.png)
