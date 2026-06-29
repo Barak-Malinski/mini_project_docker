@@ -67,6 +67,5 @@ http://localhost:5000/users/
 - Linux
 
 
-
 ## Architecture Diagram
 ![Architecture Diagram](diagram/architecture-diagram.png)
